@@ -65,6 +65,7 @@ function saveDataToFile(data) {
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
 }
 
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

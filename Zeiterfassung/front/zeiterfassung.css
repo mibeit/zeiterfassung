@@ -22,7 +22,7 @@ header{
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow:auto;
+    
   }
 
   footer {
@@ -35,7 +35,8 @@ header{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 60px); /* Adjust as needed */
+    flex-grow: 1; 
+    overflow: auto; 
 }
 
 .container2{
@@ -43,7 +44,7 @@ header{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    overflow: auto;
+   
     
     
 }
@@ -89,6 +90,7 @@ form {
   #timeForm button {
     margin: 0 10px;
   }
+
   
   #timeForm button {
     background-color: pink; 
@@ -108,17 +110,34 @@ form {
   
 
   #timeTable {
-    margin-top: 20px; /* Abstand zur oberen Element */
-    width: 100%; /* Breite der Tabelle */
-    border-collapse: collapse; /* Entfernt doppelte Ränder */
+    margin-top: 20px; 
+    width: 100%; 
+    border-collapse: collapse; 
   }
   
   #timeTable th, #timeTable td {
-    border: 1px solid #ddd; /* Ränder der Zellen */
-    padding: 8px; /* Innenabstand der Zellen */
+    border: 1px solid #ddd; 
+    padding: 8px; 
   }
   
   #timeTable th {
-    background-color: #4CAF50; /* Hintergrundfarbe der Überschriften */
-    color: white; /* Textfarbe der Überschriften */
+    background-color: pink; 
+    color: white; 
   }
+  .deleteButton {
+    background-color: red; 
+    border: none;
+    color: white;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    justify-content: center;
+}
+.deleteButton:hover{
+    background-color: lightcoral
+}
+#timeForm button:hover {
+    background-color: #ff69b4; 
+
+    }

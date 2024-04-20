@@ -7,18 +7,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=5.0" />
     <link rel="stylesheet" type="text/css" media="screen" href="zeiterfassung.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    
     <script>
+    function calculateWorkTime(start, end) {
+        
+        var startTime = new Date("1970-01-01 " + start);
+        var endTime = new Date("1970-01-01 " + end);
+
+        
+        var diff = endTime - startTime;
+
+       
+        var hours = Math.floor(diff / 1000 / 60 / 60);
+        var minutes = Math.floor(diff / 1000 / 60) % 60;
+
+        
+        return hours + ":" + (minutes < 10 ? "0" : "") + minutes;
+    }
+    function calculatePause(workTime) {
+        
+        var workTimeParts = workTime.split(":");
+        var workTimeInMinutes = parseInt(workTimeParts[0]) * 60 + parseInt(workTimeParts[1]);
+
+        
+        if (workTimeInMinutes < 6 * 60) {
+            return "0:00";
+        } else if (workTimeInMinutes < 9 * 60) {
+            return "0:30";
+        } else {
+            return "0:45";
+        }
+    }
       function addRow() {
           var start = document.getElementById("start").value;
           var end = document.getElementById("end").value;
 
-          // Create a new time record object
+          
           var newTimeRecord = {
               start: start,
               end: end
           };
 
-          // Send a POST request to the server
+          
           fetch('/timeRecords', {
               method: 'POST',
               headers: {
@@ -35,13 +66,15 @@
               var dateCell = row.insertCell(0);
               var startCell = row.insertCell(1);
               var endCell = row.insertCell(2);
-              var pauseCell = row.insertCell(3);
-              var actionCell = row.insertCell(4);
+              var workTimeCell = row.insertCell(3);
+              var pauseCell = row.insertCell(4);
+              var actionCell = row.insertCell(5);
               dateCell.innerHTML = new Date().toLocaleDateString();
               startCell.innerHTML = start;
               endCell.innerHTML = end;
-              pauseCell.innerHTML = "Pause";
-              actionCell.innerHTML = '<button onclick="deleteRow(this, ' + data.id + ')">Löschen</button>';
+              workTimeCell.innerHTML = calculateWorkTime(start, end);
+              pauseCell.innerHTML = calculatePause(calculateWorkTime(start, end));
+              actionCell.innerHTML = '<button class = "deleteButton" button onclick="deleteRow(this, ' + data.id + ')">Delete</button>';
           })
           .catch((error) => {
               console.error('Error:', error);
@@ -79,13 +112,15 @@
                 var dateCell = row.insertCell(0);
                 var startCell = row.insertCell(1);
                 var endCell = row.insertCell(2);
-                var pauseCell = row.insertCell(3);
-                var actionCell = row.insertCell(4);
+                var worktimeCell = row.insertCell(3);
+                var pauseCell = row.insertCell(4);
+                var actionCell = row.insertCell(5);
                 dateCell.innerHTML = new Date().toLocaleDateString();
                 startCell.innerHTML = record.start;
                 endCell.innerHTML = record.end;
-                pauseCell.innerHTML = "Pause";
-                actionCell.innerHTML = '<button onclick="deleteRow(this, ' + record.id + ')">delete</button>';
+                worktimeCell.innerHTML = calculateWorkTime(record.start, record.end);
+                pauseCell.innerHTML = calculatePause(calculateWorkTime(record.start, record.end));
+                actionCell.innerHTML = '<button class = "deleteButton" button onclick="deleteRow(this, ' + data.id + ')">Delete</button>';
             });
         })
         .catch((error) => {
@@ -119,6 +154,7 @@
                     <th>Datum</th>
                     <th>Startzeit</th>
                     <th>Endzeit</th>
+                    <th>Arbeitszeit</th>
                     <th>Pause</th>
                     <th>Aktion</th>
                 </tr>
