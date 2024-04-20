@@ -7,7 +7,6 @@ function recordTime(type) {
     times[type] = time;
 
     if (type === 'end') {
-        // Fügen Sie eine neue Zeile hinzu, wenn der Typ 'end' ist
         addRow(times['start'], times['end']);
     }
 

@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'front')));
 
 // About page route
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'front/login.html'));
+    res.sendFile(path.join(__dirname, 'front/html/login.html'));
 });
 
 // Get all time records
