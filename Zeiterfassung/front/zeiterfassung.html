@@ -7,6 +7,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=5.0" />
     <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+      function addRow() {
+          var start = document.getElementById("start").value;
+          var end = document.getElementById("end").value;
+
+          // Create a new time record object
+          var newTimeRecord = {
+              start: start,
+              end: end
+          };
+
+          // Send a POST request to the server
+          fetch('/timeRecords', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(newTimeRecord),
+          })
+          .then(response => response.json())
+          .then(data => {
+              // Add the new time record to the table
+              var table = document.getElementById("timeTable");
+              var row = table.insertRow(-1);
+              row.dataset.id = data.id;
+              var dateCell = row.insertCell(0);
+              var startCell = row.insertCell(1);
+              var endCell = row.insertCell(2);
+              var pauseCell = row.insertCell(3);
+              var actionCell = row.insertCell(4);
+              dateCell.innerHTML = new Date().toLocaleDateString();
+              startCell.innerHTML = start;
+              endCell.innerHTML = end;
+              pauseCell.innerHTML = "Pause";
+              actionCell.innerHTML = '<button onclick="deleteRow(this, ' + data.id + ')">Löschen</button>';
+          })
+          .catch((error) => {
+              console.error('Error:', error);
+          });
+      }
+
+      function deleteRow(btn) {
+         // Get the ID of the time record to delete
+          var id = btn.parentNode.parentNode.dataset.id;
+
+          // Send a DELETE request to the server
+          fetch('/timeRecords/' + id, {
+              method: 'DELETE',
+          })
+          .then((response) => {
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              // Remove the row from the table
+              var row = btn.parentNode.parentNode;
+              row.parentNode.removeChild(row);
+          })
+          .catch((error) => {
+              console.error('Error:', error);
+          });
+      }
+      window.onload = function() {
+        fetch('/timeRecords')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(record => {
+                var table = document.getElementById("timeTable");
+                var row = table.insertRow(-1);
+                row.dataset.id = record.id;
+                var dateCell = row.insertCell(0);
+                var startCell = row.insertCell(1);
+                var endCell = row.insertCell(2);
+                var pauseCell = row.insertCell(3);
+                var actionCell = row.insertCell(4);
+                dateCell.innerHTML = new Date().toLocaleDateString();
+                startCell.innerHTML = record.start;
+                endCell.innerHTML = record.end;
+                pauseCell.innerHTML = "Pause";
+                actionCell.innerHTML = '<button onclick="deleteRow(this, ' + record.id + ')">Löschen</button>';
+            });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+    </script>
   </head>
 
   <body>
@@ -18,11 +104,28 @@
     </div>
     </header>
     <main>
-            
-    </main>
+      <form id="timeForm">
+          <label for="start">Startzeit:</label>
+          <input type="time" id="start" name="start">
+          <label for="end">Endzeit:</label>
+          <input type="time" id="end" name="end">
+          <button type="button" onclick="addRow()">Hinzufügen</button>
+      </form>
+  
+      <table id="timeTable">
+          <tr>
+              <th>Datum</th>
+              <th>Startzeit</th>
+              <th>Endzeit</th>
+              <th>Pause</th>
+              <th>Aktion</th>
+          </tr>
+      </table>
+  </main>
     <footer>
         <div class="container">
             <p>&copy; 2024 Reutlinger Coding Team</p>
         </div>
     </footer>
   </body>
+</html>
