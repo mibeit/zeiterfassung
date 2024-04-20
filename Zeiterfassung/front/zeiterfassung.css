@@ -139,3 +139,30 @@ form {
     background-color: #ff69b4; 
 
     }
+  .editButton {
+        background-color: pink; 
+        border: none;
+        color: white;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        justify-content: center;
+  }
+  .editButton:hover{
+    background-color: lightpink;
+  }
+  .saveButton {
+    background-color: pink; 
+    border: none;
+    color: white;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    justify-content: center;
+  }
+
+  .saveButton:hover{
+    background-color: lightpink;
+  }

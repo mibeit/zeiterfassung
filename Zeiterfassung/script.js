@@ -69,4 +69,20 @@ function saveDataToFile(data) {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+// Update time record
+app.put('/timeRecords/:id', (req, res) => {
+    const id = req.params.id;
+    const updatedTimeRecord = req.body;
 
+    const index = timeRecords.findIndex(record => record.id == id);
+    if (index !== -1) {
+        // Update the time record
+        timeRecords[index] = updatedTimeRecord;
+        // Save the updated timeRecords array to the JSON file
+        saveDataToFile(timeRecords);
+        console.log('Time record updated');
+        res.status(200).json(updatedTimeRecord);
+    } else {
+        res.status(404).send();
+    }
+});

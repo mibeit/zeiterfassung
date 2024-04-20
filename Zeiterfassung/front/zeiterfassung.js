@@ -73,7 +73,7 @@ function calculatePause(workTime) {
           endCell.innerHTML = end;
           workTimeCell.innerHTML = calculateWorkTime(start, end);
           pauseCell.innerHTML = calculatePause(calculateWorkTime(start, end));
-          actionCell.innerHTML = '<button class = "deleteButton" button onclick="deleteRow(this, ' + data.id + ')">Delete</button>';
+          actionCell.innerHTML = '<button class = "editButton" button onclick="editRow(this, ' + data.id + ')">Edit</button>';
       })
       .catch((error) => {
           console.error('Error:', error);
@@ -119,8 +119,66 @@ function calculatePause(workTime) {
             endCell.innerHTML = record.end;
             worktimeCell.innerHTML = calculateWorkTime(record.start, record.end);
             pauseCell.innerHTML = calculatePause(calculateWorkTime(record.start, record.end));
-            actionCell.innerHTML = '<button class = "deleteButton" button onclick="deleteRow(this, ' + data.id + ')">Delete</button>';
+            actionCell.innerHTML = '<button class = "editButton" button onclick="editRow(this, ' + data.id + ')">Edit</button>';
         });
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+function editRow(btn) {
+    // Get the ID of the time record to edit
+    var id = btn.parentNode.parentNode.dataset.id;
+
+    // Get the start and end cells
+    var startCell = btn.parentNode.parentNode.cells[1];
+    var endCell = btn.parentNode.parentNode.cells[2];
+
+    // Change the cells to input fields with the current values
+    startCell.innerHTML = '<input type="time" id="startInput" value="' + startCell.innerHTML + '">';
+    endCell.innerHTML = '<input type="time" id="endInput" value="' + endCell.innerHTML + '">';
+
+    // Change the Edit button to a Save button
+    btn.outerHTML = '<button class="saveButton" onclick="saveRow(this, ' + id + ')">Save</button>';
+}
+
+function saveRow(btn, id) {
+    // Get the input fields
+    var startInput = document.getElementById("startInput");
+    var endInput = document.getElementById("endInput");
+
+    // Get the new start and end times
+    var newStart = startInput.value;
+    var newEnd = endInput.value;
+
+    // Send a PUT request to the server to update the time record
+    fetch('/timeRecords/' + id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({start: newStart, end: newEnd, id: id}),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Change the input fields back to normal cells with the new values
+        startInput.parentNode.innerHTML = newStart;
+        endInput.parentNode.innerHTML = newEnd;
+    
+        // Change the Save button back to an Edit button
+        btn.outerHTML = '<button class="editButton" onclick="editRow(this)">Edit</button>';
+    
+        // Calculate work time and break
+        var workTime = calculateWorkTime(newStart, newEnd);
+        var breakTime = calculateBreak(newStart, newEnd);
+    
+        // Update the work time and break time in the HTML
+        document.getElementById("workTime").innerHTML = workTime;
+        document.getElementById("breakTime").innerHTML = breakTime;
+
+        // Refresh the page
+        document.location.reload();
+    
     })
     .catch((error) => {
         console.error('Error:', error);
