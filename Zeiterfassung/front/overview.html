@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Michael Becker</title>
     <meta name="viewport" content="width=device-width, initial-scale=5.0" />
-    <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="overview.css" />
+    <script src="zeiterfassung.js"></script>
+    
   </head>
 
   <body>
@@ -21,7 +23,15 @@
 
     </header>
     <main>
+        <div class="container-buttons-fieldsets">
+            <div class ="container-buttons">
+                <button type="button" id="kommen" onclick="recordTime('start')">Kommen</button>
+                <button type="button" id="gehen" onclick="recordTime('end')">Gehen</button>
+            </div>
+            
+       
         <div class="overview-container">
+            
             <fieldset class="overview-fieldset">
                 <legend>Persönliche Informationen</legend>
                 <p>Name: Deborah</p>
@@ -38,6 +48,7 @@
                 
             </fieldset>
         </div>
+    </div>
         
     </main>
     <footer>
