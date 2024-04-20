@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Michael Becker</title>
     <meta name="viewport" content="width=device-width, initial-scale=5.0" />
-    <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="zeiterfassung.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script>
       function addRow() {
@@ -85,7 +85,7 @@
                 startCell.innerHTML = record.start;
                 endCell.innerHTML = record.end;
                 pauseCell.innerHTML = "Pause";
-                actionCell.innerHTML = '<button onclick="deleteRow(this, ' + record.id + ')">Löschen</button>';
+                actionCell.innerHTML = '<button onclick="deleteRow(this, ' + record.id + ')">delete</button>';
             });
         })
         .catch((error) => {
@@ -104,23 +104,26 @@
     </div>
     </header>
     <main>
-      <form id="timeForm">
-          <label for="start">Startzeit:</label>
-          <input type="time" id="start" name="start">
-          <label for="end">Endzeit:</label>
-          <input type="time" id="end" name="end">
-          <button type="button" onclick="addRow()">Hinzufügen</button>
-      </form>
-  
-      <table id="timeTable">
-          <tr>
-              <th>Datum</th>
-              <th>Startzeit</th>
-              <th>Endzeit</th>
-              <th>Pause</th>
-              <th>Aktion</th>
-          </tr>
-      </table>
+        <div class ="container2">
+            <form id="timeForm">
+                <label for="start">Startzeit:</label>
+                <input type="time" id="start" name="start">
+                <label for="end">Endzeit:</label>
+                <input type="time" id="end" name="end">
+                <button type="button" onclick="addRow()">Add</button>
+            </form>
+        
+        
+            <table id="timeTable">
+                <tr>
+                    <th>Datum</th>
+                    <th>Startzeit</th>
+                    <th>Endzeit</th>
+                    <th>Pause</th>
+                    <th>Aktion</th>
+                </tr>
+            </table>
+        </div>
   </main>
     <footer>
         <div class="container">

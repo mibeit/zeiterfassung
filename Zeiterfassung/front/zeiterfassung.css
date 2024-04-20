@@ -1,0 +1,124 @@
+body {
+    background-color: #eeeeee;
+    display: flex;
+    flex-direction: column;
+  }
+body,
+html {
+    height: 100%;
+  }
+  
+* {
+    margin: 0;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  }
+
+header{
+    background-color: pink;
+    padding: 1em 0;
+    flex-grow: 0;
+  }
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow:auto;
+  }
+
+  footer {
+    background-color: pink;
+    padding: 1em 0;
+    flex-grow: 0;
+  }
+
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px); /* Adjust as needed */
+}
+
+.container2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    
+    
+}
+
+
+
+form div {
+    margin-bottom: 10px;
+    
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form {
+    margin-right: 20px;
+}
+
+
+
+.home-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    color: #343a40;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#timeForm {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  #timeForm label,
+  #timeForm input,
+  #timeForm button {
+    margin: 0 10px;
+  }
+  
+  #timeForm button {
+    background-color: pink; 
+    border: none;
+    color: white;
+    height: 20px; 
+    width: 40px; 
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px; 
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    justify-content: center;
+    }
+  
+
+  #timeTable {
+    margin-top: 20px; /* Abstand zur oberen Element */
+    width: 100%; /* Breite der Tabelle */
+    border-collapse: collapse; /* Entfernt doppelte Ränder */
+  }
+  
+  #timeTable th, #timeTable td {
+    border: 1px solid #ddd; /* Ränder der Zellen */
+    padding: 8px; /* Innenabstand der Zellen */
+  }
+  
+  #timeTable th {
+    background-color: #4CAF50; /* Hintergrundfarbe der Überschriften */
+    color: white; /* Textfarbe der Überschriften */
+  }
