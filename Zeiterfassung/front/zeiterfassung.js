@@ -100,6 +100,7 @@ function calculatePause(workTime) {
       });
   }
   window.onload = function() {
+    // Erste Funktion
     fetch('/timeRecords')
     .then(response => response.json())
     .then(data => {
@@ -124,7 +125,9 @@ function calculatePause(workTime) {
     .catch((error) => {
         console.error('Error:', error);
     });
-}
+
+};
+
 function editRow(btn) {
     // Get the ID of the time record to edit
     var id = btn.parentNode.parentNode.dataset.id;
@@ -183,3 +186,6 @@ function saveRow(btn, id) {
         console.error('Error:', error);
     });
 }
+
+
+//login

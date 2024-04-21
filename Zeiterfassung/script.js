@@ -5,7 +5,7 @@ const path = require('path');
 const app = express();
 const PORT = 3030;
 const DATA_FILE = path.join(__dirname, 'data', 'timeRecords.json');
-
+const xlsx = require('xlsx');   
 // Ensure data directory exists
 const dataDir = path.join(__dirname, 'data');
 if (!fs.existsSync(dataDir)) {
@@ -86,3 +86,41 @@ app.put('/timeRecords/:id', (req, res) => {
         res.status(404).send();
     }
 });
+
+
+// login 
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    const workbook = xlsx.readFile('data/user_data.xlsx');
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const data = xlsx.utils.sheet_to_json(worksheet);
+
+    for (let row of data) {
+        if (row.username === username && Number(row.password) === Number(password)) {
+            // Setzen Sie den Umleitungspfad relativ zum Root-Pfad des Servers
+            return res.redirect('/front/html/overview.html');
+        }
+    }
+   
+    // Senden Sie einen Fehlerstatus, wenn die Anmeldeinformationen falsch sind
+    return res.status(401).send('Falsche Daten');
+});
+app.get('/front/html/overview.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'front/html/overview.html'));
+});
+app.get('/front/html/zeiterfassung.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'front/html/zeiterfassung.html'));
+});
+app.get('/front/html/urlaub.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'front/html/urlaub.html'));
+});
+app.get('/front/html/dienstplan.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'front/html/dienstplan.html'));
+});
+app.get('/front/html/login.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'front/html/login.html'));
+});
+
