@@ -98,15 +98,25 @@ app.post('/login', (req, res) => {
     const worksheet = workbook.Sheets[sheetName];
     const data = xlsx.utils.sheet_to_json(worksheet);
 
+    let validCredentials = false;
+
     for (let row of data) {
         if (row.username === username && Number(row.password) === Number(password)) {
-            // Setzen Sie den Umleitungspfad relativ zum Root-Pfad des Servers
-            return res.redirect('/front/html/overview.html');
+            validCredentials = true;
+            break;
         }
     }
-   
-    // Senden Sie einen Fehlerstatus, wenn die Anmeldeinformationen falsch sind
-    return res.status(401).send('Falsche Daten');
+
+    if (validCredentials) {
+        // Redirect to the overview page
+        res.redirect('/front/html/overview.html');
+    } else {
+        // Redirect to the error page
+        res.redirect('/front/html/login-error.html');
+    }
+
+ 
+    
 });
 app.get('/front/html/overview.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/overview.html'));
@@ -122,5 +132,8 @@ app.get('/front/html/dienstplan.html', (req, res) => {
 });
 app.get('/front/html/login.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/login.html'));
+});
+app.get('/front/html/login-error.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'front/html/login-error.html'));
 });
 

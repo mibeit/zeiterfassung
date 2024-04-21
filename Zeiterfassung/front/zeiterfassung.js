@@ -187,5 +187,3 @@ function saveRow(btn, id) {
     });
 }
 
-
-//login
