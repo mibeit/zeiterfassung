@@ -27,21 +27,33 @@ app.use(bodyParser.json());
 // Serve the index.html file
 app.use(express.static(path.join(__dirname, 'front')));
 
-// About page route
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'front/html/login.html'));
-});
-
-// Get all time records
-app.get('/timeRecords', (req, res) => {
-    res.json(timeRecords);
-});
-
 app.use(session({
     secret: 'hallowiegehtsdir',
     resave: false,
     saveUninitialized: true
 }));
+
+// About page route
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'front/html/login.html'));
+});
+
+
+// Get all time records
+app.get('/timeRecords', (req, res) => {
+    if (!req.session.user) {
+        // Error wenn this code is not avalaible !! Noch ändern
+        res.redirect('front/html/login.html');
+        return;
+    }
+
+    // Filtern user specific time records
+    const userTimeRecords = timeRecords.filter(record => record.user === req.session.user.username);
+
+    res.json(userTimeRecords);
+});
+
+
 
 
 // Add new time record
@@ -83,6 +95,8 @@ app.listen(PORT, () => {
 app.put('/timeRecords/:id', (req, res) => {
     const id = req.params.id;
     const updatedTimeRecord = req.body;
+
+    updatedTimeRecord.user = req.session.user.username;
 
     const index = timeRecords.findIndex(record => record.id == id);
     if (index !== -1) {
