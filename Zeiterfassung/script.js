@@ -5,7 +5,8 @@ const path = require('path');
 const app = express();
 const PORT = 3030;
 const DATA_FILE = path.join(__dirname, 'data', 'timeRecords.json');
-const xlsx = require('xlsx');   
+const xlsx = require('xlsx');  
+const session = require('express-session'); 
 // Ensure data directory exists
 const dataDir = path.join(__dirname, 'data');
 if (!fs.existsSync(dataDir)) {
@@ -26,20 +27,40 @@ app.use(bodyParser.json());
 // Serve the index.html file
 app.use(express.static(path.join(__dirname, 'front')));
 
+app.use(session({
+    secret: 'hallowiegehtsdir',
+    resave: false,
+    saveUninitialized: true
+}));
+
 // About page route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/login.html'));
 });
 
+
 // Get all time records
 app.get('/timeRecords', (req, res) => {
-    res.json(timeRecords);
+    if (!req.session.user) {
+        // Error wenn this code is not avalaible !! Noch ändern
+        res.redirect('front/html/login.html');
+        return;
+    }
+
+    // Filtern user specific time records
+    const userTimeRecords = timeRecords.filter(record => record.user === req.session.user.username);
+
+    res.json(userTimeRecords);
 });
+
+
+
 
 // Add new time record
 app.post('/timeRecords', (req, res) => {
   const newTimeRecord = req.body;
   newTimeRecord.id = Date.now(); // Assign a unique ID
+  newTimeRecord.user = req.session.user.username; 
   timeRecords.push(newTimeRecord);
   saveDataToFile(timeRecords);
   console.log("Time record added for: "+newTimeRecord.start)
@@ -60,6 +81,7 @@ app.delete('/timeRecords/:id', (req, res) => {
     }
 });
 
+
 // Function to save data to file
 function saveDataToFile(data) {
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
@@ -73,6 +95,8 @@ app.listen(PORT, () => {
 app.put('/timeRecords/:id', (req, res) => {
     const id = req.params.id;
     const updatedTimeRecord = req.body;
+
+    updatedTimeRecord.user = req.session.user.username;
 
     const index = timeRecords.findIndex(record => record.id == id);
     if (index !== -1) {
@@ -103,6 +127,7 @@ app.post('/login', (req, res) => {
     for (let row of data) {
         if (row.username === username && Number(row.password) === Number(password)) {
             validCredentials = true;
+            req.session.user = row;
             break;
         }
     }
