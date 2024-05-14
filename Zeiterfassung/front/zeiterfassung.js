@@ -4,12 +4,13 @@ function recordTime(type) {
     console.log("recordTime aufgerufen mit: " + type);
     var now = new Date();
     var time = now.getHours() + ":" + (now.getMinutes() < 10 ? "0" : "") + now.getMinutes();
+    var date = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
     times[type] = time;
+    times['date'] = date;
 
     if (type === 'end') {
-        addRow(times['start'], times['end']);
+        addRow(times['start'], times['end'], times['date']);
     }
-
 }
 function calculateWorkTime(start, end) {
     
@@ -40,11 +41,12 @@ function calculatePause(workTime) {
         return "0:45";
     }
 }
-  function addRow(start,end) {
+  function addRow(start,end,date) {
     
       var newTimeRecord = {
           start: start,
-          end: end
+          end: end,
+          date: date
       };
 
       
@@ -67,7 +69,7 @@ function calculatePause(workTime) {
           var workTimeCell = row.insertCell(3);
           var pauseCell = row.insertCell(4);
           var actionCell = row.insertCell(5);
-          dateCell.innerHTML = new Date().toLocaleDateString();
+          dateCell.innerHTML = new Date(date).toLocaleDateString();
           startCell.innerHTML = start;
           endCell.innerHTML = end;
           workTimeCell.innerHTML = calculateWorkTime(start, end);
@@ -114,7 +116,7 @@ function calculatePause(workTime) {
             var worktimeCell = row.insertCell(3);
             var pauseCell = row.insertCell(4);
             var actionCell = row.insertCell(5);
-            dateCell.innerHTML = new Date().toLocaleDateString();
+            dateCell.innerHTML = new Date(record.date).toLocaleDateString();
             startCell.innerHTML = record.start;
             endCell.innerHTML = record.end;
             worktimeCell.innerHTML = calculateWorkTime(record.start, record.end);
@@ -143,6 +145,11 @@ function editRow(btn) {
     // Change the Edit button to a Save button
     btn.outerHTML = '<button class="saveButton" onclick="saveRow(this, ' + id + ')">Save</button>';
 }
+// date format change 
+function formatDate(dateString) {
+    var parts = dateString.split(".");
+    return parts[2] + "-" + parts[1] + "-" + parts[0];
+}
 
 function saveRow(btn, id) {
     // Get the input fields
@@ -153,13 +160,17 @@ function saveRow(btn, id) {
     var newStart = startInput.value;
     var newEnd = endInput.value;
 
+    // Get the date from the row
+    var dateCell = btn.parentNode.parentNode.cells[0];
+    var date = formatDate(dateCell.innerHTML);
+
     // Send a PUT request to the server to update the time record
     fetch('/timeRecords/' + id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({start: newStart, end: newEnd, id: id}),
+        body: JSON.stringify({start: newStart, end: newEnd, date: date, id: id}),
     })
     .then(response => response.json())
     .then(data => {
