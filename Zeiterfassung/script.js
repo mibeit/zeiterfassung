@@ -203,6 +203,44 @@ app.get('/salaryRate/:user', (req, res) => {
         res.status(404).send('User not found');
     });
 
+app.get('/adress/:user', (req, res) => {
+    let user = req.params.user;
+    
+    const workbook = xlsx.readFile('data/user_data.xlsx');
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const data = xlsx.utils.sheet_to_json(worksheet);
+    
+    for (let row of data) {
+        if (row.username === user) {
+            res.send(row.adresse.toString()); 
+            return;
+        }
+        
+    }
+    
+        res.status(404).send('User not found');
+    });
+app.get('/telnr/:user', (req, res) => {
+    let user = req.params.user;
+    
+    const workbook = xlsx.readFile('data/user_data.xlsx');
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const data = xlsx.utils.sheet_to_json(worksheet);
+    
+    for (let row of data) {
+        if (row.username === user) {
+            res.send(row.telefonNummer.toString()); 
+            return;
+        }
+        
+    }
+    
+        res.status(404).send('User not found');
+    });
+
+
 app.get('/front/html/overview.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/overview.html'));
 });
