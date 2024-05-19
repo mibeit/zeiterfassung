@@ -5,7 +5,7 @@ let idCounter = 0;
 function generateDataEntries(startUser, startTime, endTime) {
     let data = [];
     let currentDate = new Date(); 
-    let endDate = new Date(2024, 3, 3); 
+    let endDate = new Date(2024, 0, 3); 
 
     while (currentDate >= endDate) {
         
