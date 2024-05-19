@@ -114,7 +114,7 @@ function deleteRow(btn) {
 }
 
 // This function is executed when the page is loaded.
-window.onload = function() {
+window.onload = async function() {
     // Fetch the list of time records from the server
     fetch('/timeRecords')
     .then(response => response.json())
@@ -143,6 +143,25 @@ window.onload = function() {
         // Log any errors to the console
         console.error('Error:', error);
     });
+    // personal data for each user
+    try {
+       
+        const user = await getLoggedInUser();
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        
+        const address = await getAdress(user.username);
+        const telNr = await getTelNr(user.username);
+
+        
+        document.getElementById('Name').textContent = "Name: " + user.username;
+        document.getElementById('Telefonnummer').textContent ="Tel.: "+  telNr;
+        document.getElementById('Adresse').textContent = "Address: "+ address;
+    } catch (error) {
+        console.error('Error:', error);
+    }
 };
 
 // This function is used to format a date string from the format "dd.mm.yyyy" to "yyyy-mm-dd".
@@ -152,7 +171,7 @@ function formatDate(dateString) {
 }
 
 // This function is used to edit a row in the time records table.
-// It takes a button element as an argument, which is assumed to be nested within the row to be edited.
+
 function editRow(btn) {
     // Get the ID of the time record to edit from the data-id attribute of the row
     var id = btn.parentNode.parentNode.dataset.id;
@@ -170,7 +189,7 @@ function editRow(btn) {
 }
 
 // This function is used to filter the time records table by month.
-// It takes a month number as an argument.
+
 function filterMonth(month) {
     // Fetch the list of time records for the given month from the server
     fetch('/timeRecords/month/' + month)
@@ -387,7 +406,7 @@ async function calculateTotalSalary() {
         });
         
         var totalSalary = (totalWorkTime * parseFloat(salaryRate)).toFixed(2) + "€";
-        document.getElementById('whichSalary').textContent =  "Das Gesamtghehalt beträgt:" ;
+        document.getElementById('whichSalary').textContent =  "Total Salary:" ;
         document.getElementById('totalSalary').textContent =  totalSalary;
     } catch (error) {
         console.error('Error:', error);
@@ -395,7 +414,7 @@ async function calculateTotalSalary() {
 }
 // same as above but for a specific month
 async function calculateMonthlySalary(month) {
-    var monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var monthName = monthNames[month - 1]; 
 
     try {
@@ -418,7 +437,7 @@ async function calculateMonthlySalary(month) {
         });
         
         var totalSalary = (totalWorkTime * parseFloat(salaryRate)).toFixed(2) + "€";
-        document.getElementById('whichSalary').textContent =  "Das Gehalt aus dem Monat "+ monthName + " beträgt:" ;
+        document.getElementById('whichSalary').textContent =  "Monthly Salary "+ monthName + ":" ;
         document.getElementById('totalSalary').textContent =  totalSalary;
     } catch (error) {
         console.error('Error:', error);
@@ -452,7 +471,7 @@ async function salaryLastWeek() {
         });
         
         var totalSalary = (totalWorkTime * salaryRate).toFixed(2) + "€";
-        document.getElementById('whichSalary').textContent =  "Das Gehalt aus der letzten Woche beträgt:" ;
+        document.getElementById('whichSalary').textContent =  "Last Week's Salary:" ;
         document.getElementById('totalSalary').textContent =  totalSalary;
     } catch (error) {
         console.error('Error:', error);

@@ -2,7 +2,7 @@ const fs = require('fs');
 function generateDataEntries(startUser, startTime, endTime) {
     let data = [];
     let currentDate = new Date(); 
-    let endDate = new Date(2024, 0, 3); 
+    let endDate = new Date(2024, 3, 3); 
 
     while (currentDate >= endDate) {
         
@@ -24,8 +24,8 @@ function generateDataEntries(startUser, startTime, endTime) {
 
     return data;
 }
-
-let newData = generateDataEntries("Micha", "6:00", "16:30");
+// hier dann ändern wer und wie lange 
+let newData = generateDataEntries("Clara", "6:00", "14:30");
 
 
 fs.readFile('timeRecords.json', 'utf8', (err, data) => {
@@ -35,6 +35,8 @@ fs.readFile('timeRecords.json', 'utf8', (err, data) => {
 
     
     let combinedData = existingData.concat(newData);
+
+    combinedData.reverse();
 
     
     fs.writeFile('timeRecords.json', JSON.stringify(combinedData, null, 2), (err) => {

@@ -197,9 +197,7 @@ app.get('/salaryRate/:user', (req, res) => {
             res.send(row.gehalt.toString()); 
             return;
         }
-        
     }
-    
         res.status(404).send('User not found');
     });
 

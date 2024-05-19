@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Zeiterfassung</title>
+    <title>Time Recording</title>
     <meta name="viewport" content="width=device-width, initial-scale=5.0" />
     <link rel="stylesheet" type="text/css" media="screen" href="/css/overview.css" />
     <script src="/zeiterfassung.js"></script>
@@ -13,11 +13,11 @@
   <body>
     <header>
     <div class = "container">
-        <h1>Zeiterfassung</h1>
+        <h1>Time Recording</h1>
         <div class="header-buttons">
-            <a href="zeiterfassung.html"><button class="btn-zeiterfassung">Zeiterfassung</button></a>
-            <a href="dienstplan.html"><button class="btn-dienstplan">Dienstplan</button></a>
-            <a href="gehalt.html"><button class="btn-gehalt">€</button></a>
+            <a href="zeiterfassung.html"><button class="btn-zeiterfassung">Working Time</button></a>
+            <a href="dienstplan.html"><button class="btn-dienstplan">Roster</button></a>
+            <a href="gehalt.html"><button class="btn-gehalt">Salary</button></a>
             <a href="login.html" class="logout-button">Logout</a>
         </div> 
     </div>
@@ -26,15 +26,15 @@
     <main>
         <div class="container-buttons-fieldsets">
             <div class ="container-buttons">
-                <button type="button" id="kommen" onclick="recordTime('start')">Kommen</button>
-                <button type="button" id="gehen" onclick="recordTime('end')">Gehen</button>
+                <button type="button" id="kommen" onclick="recordTime('start')">Arriving</button>
+                <button type="button" id="gehen" onclick="recordTime('end')">Leaving</button>
             </div>
             
        
         <div class="overview-container">
             
             <fieldset class="overview-fieldset">
-                <legend>Persönliche Informationen</legend>
+                <legend>Personal Information</legend>
                 <p id="Name"></p>
                 <p id="Telefonnummer"></p>
                 <p id="Adresse"></p>
@@ -42,10 +42,10 @@
             </fieldset>
     
             <fieldset class="overview-fieldset">
-                <legend>Arbeitsinformationen</legend>
-                <p>Heutige Sollarbeitszeit: 8 Stunden</p>
-                <p>Verfügbarer Urlaub: 20 Tage</p>
-                <p>Heutige Pause: 1 Stunde</p>
+                <legend>Working Information</legend>
+                <p>Today's Working Time: 8 Hours</p>
+                <p>Availabe Vacation: 30 Days</p>
+                <p>Today's break: 45 min</p>
                 
             </fieldset>
         </div>
