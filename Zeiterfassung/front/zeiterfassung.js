@@ -337,8 +337,7 @@ function saveRow(btn, id) {
         document.getElementById("workTime").innerHTML = workTime;
         document.getElementById("breakTime").innerHTML = breakTime;
 
-        // Refresh the page
-        document.location.reload();
+
     
     })
     .catch((error) => {
