@@ -39,6 +39,8 @@ app.get('/', (req, res) => {
 });
 
 
+
+
 // Get all time records
 app.get('/timeRecords', (req, res) => {
     if (!req.session.user) {
@@ -46,6 +48,7 @@ app.get('/timeRecords', (req, res) => {
         res.redirect('front/html/login.html');
         return;
     }
+
 
     // Filtern user specific time records
     const userTimeRecords = timeRecords.filter(record => record.user === req.session.user.username);
@@ -111,8 +114,44 @@ app.put('/timeRecords/:id', (req, res) => {
     }
 });
 
+app.get('/timeRecords/month/:month', (req, res) => {
+    if (!req.session.user) {
+        res.redirect('front/html/login.html');
+        return;
+    }
 
-// login 
+    let month = Number(req.params.month);
+
+    let filteredData = timeRecords.filter(record => {
+        let recordDate = new Date(record.date);
+        recordDate.setHours(0, 0, 0, 0); 
+        return record.user === req.session.user.username && 
+               (recordDate.getMonth() + 1 === month);
+    });
+
+    res.json(filteredData);
+});
+
+app.get('/timeRecords/date/:date', (req, res) => {
+    if (!req.session.user) {
+        res.redirect('front/html/login.html');
+        return;
+    }
+
+    let today = new Date(req.params.date);
+    let sevenDaysAgo = new Date(req.params.date);
+    sevenDaysAgo.setDate(today.getDate() - 7);
+
+    let filteredData1 = timeRecords.filter(record => {
+        let dateParts = record.date.split('-').map(part => parseInt(part, 10));
+        let recordDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+        let isWithinWeek = recordDate >= sevenDaysAgo && recordDate <= today;
+        let isUserRecord = record.user === req.session.user.username;  
+        return isWithinWeek && isUserRecord;  
+    });
+
+    res.json(filteredData1);
+});
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
@@ -139,18 +178,75 @@ app.post('/login', (req, res) => {
         // Redirect to the error page
         res.redirect('/front/html/login-error.html');
     }
-
- 
-    
 });
+//Send me User data
+app.get('/loggedInUser', function(req, res) {
+    res.send(req.session.user);
+});
+
+app.get('/salaryRate/:user', (req, res) => {
+    let user = req.params.user;
+    
+    const workbook = xlsx.readFile('data/user_data.xlsx');
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const data = xlsx.utils.sheet_to_json(worksheet);
+    
+    for (let row of data) {
+        if (row.username === user) {
+            res.send(row.gehalt.toString()); 
+            return;
+        }
+    }
+        res.status(404).send('User not found');
+    });
+
+app.get('/adress/:user', (req, res) => {
+    let user = req.params.user;
+    
+    const workbook = xlsx.readFile('data/user_data.xlsx');
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const data = xlsx.utils.sheet_to_json(worksheet);
+    
+    for (let row of data) {
+        if (row.username === user) {
+            res.send(row.adresse.toString()); 
+            return;
+        }
+        
+    }
+    
+        res.status(404).send('User not found');
+    });
+app.get('/telnr/:user', (req, res) => {
+    let user = req.params.user;
+    
+    const workbook = xlsx.readFile('data/user_data.xlsx');
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const data = xlsx.utils.sheet_to_json(worksheet);
+    
+    for (let row of data) {
+        if (row.username === user) {
+            res.send(row.telefonNummer.toString()); 
+            return;
+        }
+        
+    }
+    
+        res.status(404).send('User not found');
+    });
+
+
 app.get('/front/html/overview.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/overview.html'));
 });
 app.get('/front/html/zeiterfassung.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/zeiterfassung.html'));
 });
-app.get('/front/html/urlaub.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'front/html/urlaub.html'));
+app.get('/front/html/gehalt.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'front/html/gehalt.html'));
 });
 app.get('/front/html/dienstplan.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/dienstplan.html'));
@@ -161,4 +257,3 @@ app.get('/front/html/login.html', (req, res) => {
 app.get('/front/html/login-error.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/login-error.html'));
 });
-
