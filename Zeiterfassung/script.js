@@ -185,8 +185,8 @@ app.get('/front/html/overview.html', (req, res) => {
 app.get('/front/html/zeiterfassung.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/zeiterfassung.html'));
 });
-app.get('/front/html/urlaub.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'front/html/urlaub.html'));
+app.get('/front/html/gehalt.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'front/html/gehalt.html'));
 });
 app.get('/front/html/dienstplan.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/dienstplan.html'));

@@ -59,20 +59,20 @@ header{
   font-size: 16px;
   border: none;
   border-radius: 5px;
-  background-color: #4CAF50; /* Grün */
+  background-color: #4CAF50; 
   color: white;
   cursor: pointer;
-  width: 150px; /* Feste Breite für alle Buttons */
-  height: 50px; /* Feste Höhe für alle Buttons */
-  text-align: center; /* Zentriert den Text in den Buttons */
+  width: 150px; 
+  height: 50px; 
+  text-align: center; 
   margin: 0 20px;
 }
 
 .dropdown {
   position: relative;
   display: inline-block;
-  width: 150px; /* Feste Breite für den Dropdown-Button */
-  height: 40px; /* Feste Höhe für den Dropdown-Button */
+  width: 150px; 
+  height: 40px; 
 }
 
 .dropdown-content {
@@ -87,8 +87,8 @@ header{
 
 .dropdown-content button {
   display: block;
-  width : 150px; /* Setzt die Breite der Buttons auf die volle Breite des Elternelements */
-  text-align: center; /* Zentriert den Text innerhalb der Buttons */
+  width : 150px; 
+  text-align: center; 
   margin : 0 20px;
   background-color: pink;
   border: none;
