@@ -29,10 +29,10 @@ header{
   .header-buttons {
     display: flex;
     justify-content: space-between;
-    width:100%;
-
-    
-  }
+    width: 60%;
+    margin-left: 21%;
+    margin-right: auto;
+}
 
 
   footer {
