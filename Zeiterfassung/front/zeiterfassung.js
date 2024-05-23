@@ -49,7 +49,6 @@ function calculatePause(workTime) {
           date: date
       };
 
-      
       fetch('/timeRecords', {
           method: 'POST',
           headers: {
@@ -75,6 +74,7 @@ function calculatePause(workTime) {
           workTimeCell.innerHTML = calculateWorkTime(start, end);
           pauseCell.innerHTML = calculatePause(calculateWorkTime(start, end));
           actionCell.innerHTML = '<button class = "editButton" button onclick="editRow(this, ' + data.id + ')">Edit</button>';
+          actionCell.innerHTML += '<button class = "deleteButton" button onclick="deleteRow(this, ' + data.id +')">Delete</button>';
       })
       .catch((error) => {
           console.error('Error:', error);
@@ -101,6 +101,8 @@ function calculatePause(workTime) {
           console.error('Error:', error);
       });
   }
+
+  // if the page is loaded table will be reloaded 
   window.onload = function() {
     // Erste Funktion
     fetch('/timeRecords')
@@ -122,6 +124,7 @@ function calculatePause(workTime) {
             worktimeCell.innerHTML = calculateWorkTime(record.start, record.end);
             pauseCell.innerHTML = calculatePause(calculateWorkTime(record.start, record.end));
             actionCell.innerHTML = '<button class = "editButton" button onclick="editRow(this, ' + data.id + ')">Edit</button>';
+            actionCell.innerHTML += '<button class = "deleteButton" button onclick="deleteRow(this, ' + data.id +')">Delete</button>';
         });
     })
     .catch((error) => {
@@ -129,6 +132,11 @@ function calculatePause(workTime) {
     });
 
 };
+
+function formatDate(dateString) {
+    var parts = dateString.split(".");
+    return parts[2] + "-" + parts[1] + "-" + parts[0];
+}
 
 function editRow(btn) {
     // Get the ID of the time record to edit
@@ -145,11 +153,7 @@ function editRow(btn) {
     // Change the Edit button to a Save button
     btn.outerHTML = '<button class="saveButton" onclick="saveRow(this, ' + id + ')">Save</button>';
 }
-// date format change 
-function formatDate(dateString) {
-    var parts = dateString.split(".");
-    return parts[2] + "-" + parts[1] + "-" + parts[0];
-}
+
 
 function saveRow(btn, id) {
     // Get the input fields

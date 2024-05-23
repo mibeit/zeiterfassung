@@ -2,6 +2,7 @@ body {
     background-color: #eeeeee;
     display: flex;
     flex-direction: column;
+  
   }
 body,
 html {
@@ -22,8 +23,79 @@ header{
     display: flex;
     flex-direction: column;
     align-items: center;
+
     
   }
+  .header-buttons {
+    display: flex;
+    justify-content: space-between;
+    width:100%;
+
+    
+}
+
+.btn-filter {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 150px; 
+  height: 50px; 
+  text-align: center; 
+  border: 2px solid white;
+  background-color: pink;
+  color : white;
+  border-radius: 5px;
+  margin: 0 20px;
+  
+}
+.btn-filter:hover {
+  background-color: #ff69b4; 
+}
+.btn-export:hover {
+  background-color: lightgreen;
+}
+.btn-export{
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50; /* Grün */
+  color: white;
+  cursor: pointer;
+  width: 150px; /* Feste Breite für alle Buttons */
+  height: 50px; /* Feste Höhe für alle Buttons */
+  text-align: center; /* Zentriert den Text in den Buttons */
+  margin: 0 20px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 150px; /* Feste Breite für den Dropdown-Button */
+  height: 40px; /* Feste Höhe für den Dropdown-Button */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  
+}
+
+.dropdown-content a {
+  display: block;
+  color: black; /* Ändert die Schriftfarbe auf Schwarz */
+  background-color: pink;
+  width: 150px; /* Feste Breite für die Dropdown-Elemente */
+  margin: 0 20px;
+  text-align: center;
+}
+
 
   footer {
     background-color: pink;
@@ -34,7 +106,7 @@ header{
   main {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-grow: 1; 
     overflow: auto; 
 }
@@ -44,10 +116,18 @@ header{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    
    
     
     
 }
+.table-container {
+  position: relative; 
+  overflow-y: auto; 
+  margin-top: 20px; 
+  margin-bottom: 20px;
+}
+
 
 form div {
     margin-bottom: 10px;

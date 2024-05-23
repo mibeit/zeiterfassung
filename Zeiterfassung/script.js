@@ -47,6 +47,7 @@ app.get('/timeRecords', (req, res) => {
         return;
     }
 
+
     // Filtern user specific time records
     const userTimeRecords = timeRecords.filter(record => record.user === req.session.user.username);
 

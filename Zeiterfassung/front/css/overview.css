@@ -201,3 +201,16 @@ form {
     flex-direction: row;
     align-items: center;
 }
+
+.logout-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    color: #343a40;
+    text-decoration: none;
+    border-radius: 5px;
+}
+

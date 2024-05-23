@@ -7,10 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=5.0" />
     <link rel="stylesheet" type="text/css" media="screen" href="/css/zeiterfassung.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="/zeiterfassung.js"></script>
-    
 
-    
   </head>
 
   <body>
@@ -18,15 +17,36 @@
     <div class = "container">
         <h1>Zeitmanagement</h1>
         <a href="overview.html" class="home-button"><i class="fas fa-home"></i></a>
+        <div class="header-buttons">
+          <div class="dropdown">
+            <button class="btn-filter" id="filter-month">Month</button>
+            <div class="dropdown-content">
+                <a href="#">January</a>
+                <a href="#">February</a>
+                <a href="#">March</a>
+                <a href="#">April</a>
+                <a href="#">May</a>
+                <a href="#">June</a>
+                <a href="#">July</a>
+                <a href="#">August</a>
+                <a href="#">September</a>
+                <a href="#">October</a>
+                <a href="#">November</a>
+                <a href="#">December</a>
+            </div>
+          </div>
+          <button class="btn-filter" id="filter-last-week">Last Week</button>
+          <button class="btn-filter" id="filter-all">All</button>
+          
+
+          <button class="btn-export" id="export">Export</button>
+      </div>
         
     </div>
     </header>
     <main>
-        <div class ="container2">
-
-            
-
-                
+      <div class="container2">
+        <div class="table-container">
             <table id="timeTable">
                 <tr>
                     <th>Datum</th>
@@ -38,6 +58,7 @@
                 </tr>
             </table>
         </div>
+    </div>
   </main>
     <footer>
         <div class="container">
