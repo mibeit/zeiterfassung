@@ -331,7 +331,7 @@ function saveRow(btn, id) {
     
         // Calculate work time and break
         var workTime = calculateWorkTime(newStart, newEnd);
-        var breakTime = calculateBreak(newStart, newEnd);
+        var breakTime = calculatePause(newStart, newEnd);
     
         // Update the work time and break time in the HTML
         document.getElementById("workTime").innerHTML = workTime;

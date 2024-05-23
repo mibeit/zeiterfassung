@@ -13,6 +13,8 @@ if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir);
 }
 
+
+
 // Load time records data
 let timeRecords = [];
 
@@ -24,7 +26,7 @@ if (fs.existsSync(DATA_FILE)) {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Serve the index.html file
+
 app.use(express.static(path.join(__dirname, 'front')));
 
 app.use(session({
@@ -239,6 +241,7 @@ app.get('/telnr/:user', (req, res) => {
     });
 
 
+
 app.get('/front/html/overview.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/overview.html'));
 });
@@ -256,4 +259,8 @@ app.get('/front/html/login.html', (req, res) => {
 });
 app.get('/front/html/login-error.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/login-error.html'));
+});
+
+app.get('/front/html/roster.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'front/html/roster.png'));
 });

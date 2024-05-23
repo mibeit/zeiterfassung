@@ -29,13 +29,13 @@ function generateDataEntries(startUser, startTime, endTime) {
 
 
 let users = [
-    { name: "Deborah", start: "6:00", end: "14:30" },
+    { name: "Deborah", start: "15:00", end: "23:30" },
     { name: "Luisa", start: "7:00", end: "15:30" },
-    { name: "Clara", start: "8:00", end: "16:30" },
-    { name: "Prisca", start: "14:00", end: "22:30" },
-    { name: "Aitana", start: "18:00", end: "23:30" },
-    { name: "Vivien", start: "2:00", end: "7:30" },
-    { name: "Elena", start: "10:00", end: "15:30" }
+    { name: "Clara", start: "8:00", end: "15:30" },
+    { name: "Prisca", start: "7:00", end: "15:30" },
+    { name: "Aitana", start: "7:00", end: "15:30" },
+    { name: "Vivien", start: "15:00", end: "23:30" },
+    { name: "Elena", start: "15:00", end: "23:30" }
    
 ];
 
