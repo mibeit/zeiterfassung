@@ -78,22 +78,24 @@ header{
 .dropdown-content {
   display: none;
   position: absolute;
-  min-width: 160px;
   z-index: 1;
 }
 
 .dropdown:hover .dropdown-content {
   display: block;
-  
 }
 
-.dropdown-content a {
+.dropdown-content button {
   display: block;
-  color: black; /* Ändert die Schriftfarbe auf Schwarz */
+  width : 150px; /* Setzt die Breite der Buttons auf die volle Breite des Elternelements */
+  text-align: center; /* Zentriert den Text innerhalb der Buttons */
+  margin : 0 20px;
   background-color: pink;
-  width: 150px; /* Feste Breite für die Dropdown-Elemente */
-  margin: 0 20px;
-  text-align: center;
+  border: none;
+  
+}
+.dropdown-content button:hover {
+  background-color: #ff69b4;
 }
 
 

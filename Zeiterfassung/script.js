@@ -112,9 +112,23 @@ app.put('/timeRecords/:id', (req, res) => {
     }
 });
 
+app.get('/timeRecords/:month', (req, res) => {
+    if (!req.session.user) {
+        res.redirect('front/html/login.html');
+        return;
+    }
 
-// login 
+    let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let month = monthNames.indexOf(req.params.month);
 
+    // Filtern user specific time records
+    const userTimeRecords = timeRecords.filter(record => {
+        let recordDate = new Date(record.date);
+        return record.user === req.session.user.username && recordDate.getMonth() === month;
+    });
+
+    res.json(userTimeRecords);
+});
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
@@ -141,8 +155,7 @@ app.post('/login', (req, res) => {
         res.redirect('/front/html/login-error.html');
     }
 
- 
-    
+
 });
 app.get('/front/html/overview.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/overview.html'));

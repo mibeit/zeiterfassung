@@ -1,19 +1,22 @@
 const fs = require('fs');
-
-function generateDataEntries(numEntries, startUser, startTime, endTime) {
+function generateDataEntries(startUser, startTime, endTime) {
     let data = [];
     let currentDate = new Date(); // Startdatum ist das heutige Datum
+    let endDate = new Date(2024, 0, 3); // Enddatum ist der 03.01.2024
 
-    for (let i = 0; i < numEntries; i++) {
-        let entry = {
-            "start": startTime,
-            "end": endTime,
-            "date": `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`,
-            "id": Date.now() - i, // Erzeugen Sie eine eindeutige ID
-            "user": startUser
-        };
+    while (currentDate >= endDate) {
+        // Überprüfen, ob das aktuelle Datum ein Wochenende ist
+        if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+            let entry = {
+                "start": startTime,
+                "end": endTime,
+                "date": `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`,
+                "id": Date.now() - currentDate.getTime(), // Erzeugen Sie eine eindeutige ID
+                "user": startUser
+            };
 
-        data.push(entry);
+            data.push(entry);
+        }
 
         // Dekrementieren Sie das Datum um einen Tag
         currentDate.setDate(currentDate.getDate() - 1);
@@ -22,7 +25,7 @@ function generateDataEntries(numEntries, startUser, startTime, endTime) {
     return data;
 }
 
-let newData = generateDataEntries(60, "Marlies", "7:00", "16:30");
+let newData = generateDataEntries("Deborah", "6:00", "15:30");
 
 // Lesen Sie die vorhandenen Daten aus der JSON-Datei
 fs.readFile('timeRecords.json', 'utf8', (err, data) => {

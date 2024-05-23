@@ -153,6 +153,38 @@ function editRow(btn) {
     // Change the Edit button to a Save button
     btn.outerHTML = '<button class="saveButton" onclick="saveRow(this, ' + id + ')">Save</button>';
 }
+function filterMonth(month) {
+    fetch('/timeRecords/' + month)
+        .then(response => response.json())
+        .then(data => {
+            var table = document.getElementById("timeTable");
+            
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+            
+            data.forEach(record => {
+                var row = table.insertRow(-1);
+                row.dataset.id = record.id;
+                var dateCell = row.insertCell(0);
+                var startCell = row.insertCell(1);
+                var endCell = row.insertCell(2);
+                var worktimeCell = row.insertCell(3);
+                var pauseCell = row.insertCell(4);
+                var actionCell = row.insertCell(5);
+                dateCell.innerHTML = new Date(record.date).toLocaleDateString();
+                startCell.innerHTML = record.start;
+                endCell.innerHTML = record.end;
+                worktimeCell.innerHTML = calculateWorkTime(record.start, record.end);
+                pauseCell.innerHTML = calculatePause(calculateWorkTime(record.start, record.end));
+                actionCell.innerHTML = '<button class = "editButton" button onclick="editRow(this, ' + record.id + ')">Edit</button>';
+                actionCell.innerHTML += '<button class = "deleteButton" button onclick="deleteRow(this, ' + record.id +')">Delete</button>';
+            });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
 
 
 function saveRow(btn, id) {
