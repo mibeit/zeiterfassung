@@ -118,17 +118,20 @@ app.get('/timeRecords/:month', (req, res) => {
         return;
     }
 
-    let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    let month = monthNames.indexOf(req.params.month);
+    console.log('Anfrage:', req.params);
+    let month = Number(req.params.month);
 
-    // Filtern user specific time records
-    const userTimeRecords = timeRecords.filter(record => {
+    let filteredData = timeRecords.filter(record => {
         let recordDate = new Date(record.date);
-        return record.user === req.session.user.username && recordDate.getMonth() === month;
+        return record.user === req.session.user.username && 
+               (recordDate.getMonth() + 1 === month);
     });
 
-    res.json(userTimeRecords);
+    
+    res.json(filteredData);
 });
+
+
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
@@ -175,4 +178,3 @@ app.get('/front/html/login.html', (req, res) => {
 app.get('/front/html/login-error.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/login-error.html'));
 });
-
