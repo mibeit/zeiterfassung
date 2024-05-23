@@ -13,6 +13,8 @@ if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir);
 }
 
+
+
 // Load time records data
 let timeRecords = [];
 
@@ -24,7 +26,7 @@ if (fs.existsSync(DATA_FILE)) {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Serve the index.html file
+
 app.use(express.static(path.join(__dirname, 'front')));
 
 app.use(session({
@@ -237,6 +239,7 @@ app.get('/telnr/:user', (req, res) => {
     
         res.status(404).send('User not found');
     });
+
 
 
 app.get('/front/html/overview.html', (req, res) => {
