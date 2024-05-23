@@ -25,7 +25,7 @@ function generateDataEntries(startUser, startTime, endTime) {
     return data;
 }
 
-let newData = generateDataEntries("Deborah", "6:00", "15:30");
+let newData = generateDataEntries("Micha", "6:00", "16:30");
 
 // Lesen Sie die vorhandenen Daten aus der JSON-Datei
 fs.readFile('timeRecords.json', 'utf8', (err, data) => {

@@ -1,3 +1,5 @@
+
+
 var times = {};
 
 function recordTime(type) {
@@ -154,7 +156,78 @@ function editRow(btn) {
     btn.outerHTML = '<button class="saveButton" onclick="saveRow(this, ' + id + ')">Save</button>';
 }
 function filterMonth(month) {
-    fetch('/timeRecords/' + month)
+    fetch('/timeRecords/month/' + month)
+        .then(response => response.json())
+        .then(data => {
+            var table = document.getElementById("timeTable");
+            
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+            
+            data.forEach(record => {
+                var row = table.insertRow(-1);
+                row.dataset.id = record.id;
+                var dateCell = row.insertCell(0);
+                var startCell = row.insertCell(1);
+                var endCell = row.insertCell(2);
+                var worktimeCell = row.insertCell(3);
+                var pauseCell = row.insertCell(4);
+                var actionCell = row.insertCell(5);
+                dateCell.innerHTML = new Date(record.date).toLocaleDateString();
+                startCell.innerHTML = record.start;
+                endCell.innerHTML = record.end;
+                worktimeCell.innerHTML = calculateWorkTime(record.start, record.end);
+                pauseCell.innerHTML = calculatePause(calculateWorkTime(record.start, record.end));
+                actionCell.innerHTML = '<button class = "editButton" button onclick="editRow(this, ' + record.id + ')">Edit</button>';
+                actionCell.innerHTML += '<button class = "deleteButton" button onclick="deleteRow(this, ' + record.id +')">Delete</button>';
+            });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+function last7Days() {
+
+    let today = new Date();
+    let dateString = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+   
+    fetch('/timeRecords/date/' + dateString)
+        .then(response => response.json())
+        .then(data => {
+            
+            var table = document.getElementById("timeTable");
+            
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+            
+            data.forEach(record => {
+                var row = table.insertRow(-1);
+                row.dataset.id = record.id;
+                var dateCell = row.insertCell(0);
+                var startCell = row.insertCell(1);
+                var endCell = row.insertCell(2);
+                var worktimeCell = row.insertCell(3);
+                var pauseCell = row.insertCell(4);
+                var actionCell = row.insertCell(5);
+                dateCell.innerHTML = new Date(record.date).toLocaleDateString();
+                startCell.innerHTML = record.start;
+                endCell.innerHTML = record.end;
+                worktimeCell.innerHTML = calculateWorkTime(record.start, record.end);
+                pauseCell.innerHTML = calculatePause(calculateWorkTime(record.start, record.end));
+                actionCell.innerHTML = '<button class = "editButton" button onclick="editRow(this, ' + record.id + ')">Edit</button>';
+                actionCell.innerHTML += '<button class = "deleteButton" button onclick="deleteRow(this, ' + record.id +')">Delete</button>';
+            });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+function getAllRecords() {
+    fetch('/timeRecords')
         .then(response => response.json())
         .then(data => {
             var table = document.getElementById("timeTable");
@@ -232,4 +305,38 @@ function saveRow(btn, id) {
     .catch((error) => {
         console.error('Error:', error);
     });
+}
+
+
+function exportToExcel() {
+    fetch('/timeRecords')
+        .then(response => response.json())
+        .then(data => {
+            var wb = XLSX.utils.book_new();
+            wb.Props = {
+                Title: "Zeiterfassung",
+                Subject: "Zeiterfassung",
+                Author: "Ihr Name",
+                CreatedDate: new Date()
+            };
+            wb.SheetNames.push("Zeiterfassung");
+            var ws_data = [['Datum', 'Start', 'Ende', 'Arbeitszeit', 'Pause']];
+            data.forEach(record => {
+                ws_data.push([new Date(record.date).toLocaleDateString(), record.start, record.end, calculateWorkTime(record.start, record.end), calculatePause(calculateWorkTime(record.start, record.end))]);
+            });
+            var ws = XLSX.utils.aoa_to_sheet(ws_data);
+            wb.Sheets["Zeiterfassung"] = ws;
+            var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+            saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'zeiterfassung.xlsx');
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+function s2ab(s) { 
+    var buf = new ArrayBuffer(s.length);
+    var view = new Uint8Array(buf);
+    for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
 }

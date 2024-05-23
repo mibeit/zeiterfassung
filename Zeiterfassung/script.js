@@ -112,25 +112,44 @@ app.put('/timeRecords/:id', (req, res) => {
     }
 });
 
-app.get('/timeRecords/:month', (req, res) => {
+app.get('/timeRecords/month/:month', (req, res) => {
     if (!req.session.user) {
         res.redirect('front/html/login.html');
         return;
     }
 
-    console.log('Anfrage:', req.params);
     let month = Number(req.params.month);
 
     let filteredData = timeRecords.filter(record => {
         let recordDate = new Date(record.date);
+        recordDate.setHours(0, 0, 0, 0); 
         return record.user === req.session.user.username && 
                (recordDate.getMonth() + 1 === month);
     });
 
-    
     res.json(filteredData);
 });
 
+app.get('/timeRecords/date/:date', (req, res) => {
+    if (!req.session.user) {
+        res.redirect('front/html/login.html');
+        return;
+    }
+
+    let today = new Date(req.params.date);
+    let sevenDaysAgo = new Date(req.params.date);
+    sevenDaysAgo.setDate(today.getDate() - 7);
+
+    let filteredData1 = timeRecords.filter(record => {
+        let dateParts = record.date.split('-').map(part => parseInt(part, 10));
+        let recordDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+        let isWithinWeek = recordDate >= sevenDaysAgo && recordDate <= today;
+        let isUserRecord = record.user === req.session.user.username;  
+        return isWithinWeek && isUserRecord;  
+    });
+
+    res.json(filteredData1);
+});
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;

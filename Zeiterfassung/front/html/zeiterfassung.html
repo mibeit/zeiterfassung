@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="/zeiterfassung.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
 
   </head>
 
@@ -35,11 +37,9 @@
               <button onclick="filterMonth(12)">December</button>
             </div>
           </div>
-          <button class="btn-filter" id="filter-last-week">Last Week</button>
-          <button class="btn-filter" id="filter-all">All</button>
-          
-
-          <button class="btn-export" id="export">Export</button>
+          <button class="btn-filter" id="filter-last-week" onclick="last7Days()">Last Week</button>
+          <button class="btn-filter" id="filter-all" onclick="getAllRecords()">All</button>
+          <button class="btn-export" id="export" onclick = "exportToExcel()">Export</button>
       </div>
         
     </div>
