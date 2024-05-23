@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=5.0" />
     <link rel="stylesheet" type="text/css" media="screen" href="/css/gehalt.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="/zeiterfassung.js"></script>
 
 
   </head>
@@ -20,22 +21,22 @@
             <div class="dropdown">
               <button class="btn-filter" id="filter-month">Month</button>
               <div class="dropdown-content">
-                <button onclick="filterMonth(1)">January</button>
-                <button onclick="filterMonth(2)">February</button>
-                <button onclick="filterMonth(3)">March</button>
-                <button onclick="filterMonth(4)">April</button>
-                <button onclick="filterMonth(5)">May</button>
-                <button onclick="filterMonth(6)">June</button>
-                <button onclick="filterMonth(7)">July</button>
-                <button onclick="filterMonth(8)">August</button>
-                <button onclick="filterMonth(9)">September</button>
-                <button onclick="filterMonth(10)">October</button>
-                <button onclick="filterMonth(11)">November</button>
-                <button onclick="filterMonth(12)">December</button>
+                <button onclick="calculateMonthlySalary(1)">January</button>
+                <button onclick="calculateMonthlySalary(2)">February</button>
+                <button onclick="calculateMonthlySalary(3)">March</button>
+                <button onclick="calculateMonthlySalary(4)">April</button>
+                <button onclick="calculateMonthlySalary(5)">May</button>
+                <button onclick="calculateMonthlySalary(6)">June</button>
+                <button onclick="calculateMonthlySalary(7)">July</button>
+                <button onclick="calculateMonthlySalary(8)">August</button>
+                <button onclick="calculateMonthlySalary(9)">September</button>
+                <button onclick="calculateMonthlySalary(10)">October</button>
+                <button onclick="calculateMonthlySalary(11)">November</button>
+                <button onclick="calculateMonthlySalary(12)">December</button>
               </div>
             </div>
-            <button class="btn-filter" id="filter-last-week" onclick=>Last Week</button>
-            <button class="btn-filter" id="filter-all" onclick=>All</button>
+            <button class="btn-filter" id="filter-last-week" onclick= "salaryLastWeek()">Last Week</button>
+            <button class="btn-filter" id="filter-all" onclick= "calculateTotalSalary()">All</button>
             
         </div>
           
@@ -43,6 +44,10 @@
       </header>
     </header>
     <main>
+      <div class="salaryContainer">
+        <p id="whichSalary"></p>
+        <p id="totalSalary"></p>
+      </div>
             
     </main>
     <footer>

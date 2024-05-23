@@ -151,3 +151,23 @@ form {
 .dropdown-content button:hover {
   background-color: #ff69b4;
 }
+
+#whichSalary{
+  font-size: 50px; 
+  
+
+}
+#totalSalary {
+  font-size: 120px; 
+  color: green; 
+}
+
+.salaryContainer{
+  margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+}
+

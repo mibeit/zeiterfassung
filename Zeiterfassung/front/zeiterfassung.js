@@ -1,5 +1,3 @@
-
-
 var times = {};
 
 function recordTime(type) {
@@ -339,4 +337,121 @@ function s2ab(s) {
     var view = new Uint8Array(buf);
     for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
     return buf;
+}
+
+function convertTimeToDecimal(time) {
+    const [hours, minutes] = time.split(':');
+    return Number(hours) + Number(minutes) / 60;
+}
+
+async function calculateTotalSalary() {
+    try {
+        const user = await getLoggedInUser();
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const response = await fetch('/salaryRate/' + user.username);
+        const salaryRate = await response.text();
+
+        const response2 = await fetch('/timeRecords');
+        const data = await response2.json();
+
+        var totalWorkTime = 0;
+        
+        data.forEach(record => {
+            var workTime = convertTimeToDecimal(calculateWorkTime(record.start, record.end));
+            totalWorkTime += workTime;
+        });
+        
+        var totalSalary = (totalWorkTime * parseFloat(salaryRate)).toFixed(2) + "€";
+        document.getElementById('whichSalary').textContent =  "Das Gesamtghehalt beträgt:" ;
+        document.getElementById('totalSalary').textContent =  totalSalary;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function calculateMonthlySalary(month) {
+    var monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+    var monthName = monthNames[month - 1]; 
+
+    try {
+        const user = await getLoggedInUser();
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const response = await fetch('/salaryRate/' + user.username);
+        const salaryRate = await response.text();
+
+        const response2 = await fetch('/timeRecords/month/' + month);
+        const data = await response2.json();
+
+        var totalWorkTime = 0;
+        
+        data.forEach(record => {
+            var workTime = convertTimeToDecimal(calculateWorkTime(record.start, record.end));
+            totalWorkTime += workTime;
+        });
+        
+        var totalSalary = (totalWorkTime * parseFloat(salaryRate)).toFixed(2) + "€";
+        document.getElementById('whichSalary').textContent =  "Das Gehalt aus dem Monat "+ monthName + " beträgt:" ;
+        document.getElementById('totalSalary').textContent =  totalSalary;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+async function salaryLastWeek() {
+    let today = new Date();
+    let dateString = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
+    try {
+        const user = await getLoggedInUser();
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const salaryRate = await getSalaryRate(user.username);
+        if (!salaryRate) {
+            throw new Error('Salary rate not found');
+        }
+
+        const response = await fetch('/timeRecords/date/' + dateString);
+        const data = await response.json();
+
+        var totalWorkTime = 0;
+        
+        data.forEach(record => {
+            var workTime = convertTimeToDecimal(calculateWorkTime(record.start, record.end));
+            totalWorkTime += workTime;
+        });
+        
+        var totalSalary = (totalWorkTime * salaryRate).toFixed(2) + "€";
+        document.getElementById('whichSalary').textContent =  "Das Gehalt aus der letzten Woche beträgt:" ;
+        document.getElementById('totalSalary').textContent =  totalSalary;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+function getLoggedInUser() {
+    return fetch('/loggedInUser')
+        .then(response => response.json())
+        .then(user => {
+            return user;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+async function getSalaryRate(user) {
+    const response = await fetch('/salaryRate/' + user);
+    if (!response.ok) {
+        throw new Error('User not found');
+    }
+    const salaryRate = await response.text();
+    return salaryRate;
 }
