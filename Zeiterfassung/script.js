@@ -260,3 +260,7 @@ app.get('/front/html/login.html', (req, res) => {
 app.get('/front/html/login-error.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'front/html/login-error.html'));
 });
+
+app.get('/front/html/roster.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'front/html/roster.png'));
+});
